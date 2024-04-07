@@ -197,8 +197,10 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args) {
+  return (...arg) => {
+    return fn(...args, ...arg);
+  };
 }
 
 /**
@@ -223,9 +225,9 @@ function getIdGeneratorFunction(startFrom) {
   return () => {
     if (startFrom in cach) {
       cach[startFrom] += 1;
-      return cach[startFrom];
+    } else {
+      cach[startFrom] = startFrom;
     }
-    cach[startFrom] = startFrom;
     return cach[startFrom];
   };
 }
